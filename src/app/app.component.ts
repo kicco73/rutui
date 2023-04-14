@@ -8,7 +8,7 @@ type Resource = {
     variant: string;
     numberOfConcepts: number;
     numberOfTerms: number;
-    numberOfLanguages: number;
+    languages: string[];
   };
   sparql?: String;
 }

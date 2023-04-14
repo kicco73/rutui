@@ -46,10 +46,11 @@
           <strong>TBX dialect:</strong> {{ resource.metadata.variant }}
         </div>
         <div>
-          <strong>Number of concepts:</strong> {{ resource.metadata.numberOfConcepts }}
+          <strong>Languages:</strong>
+          <span *ngFor="let language of resource.metadata.languages">&nbsp;{{ language  }}</span>
         </div>
         <div>
-          <strong>Number of languages:</strong> {{ resource.metadata.numberOfLanguages }}
+          <strong>Number of concepts:</strong> {{ resource.metadata.numberOfConcepts }}
         </div>
         <div>
           <strong>Number of terms:</strong> {{ resource.metadata.numberOfTerms }}

@@ -1,0 +1,43 @@
+.block-div {
+  display: inline-flex;
+}
+
+.spacer {
+  height: 24px;
+}
+
+.gap-3 {
+  padding-bottom: 8px;
+  padding-top: 8px;
+}
+
+.layout-header {
+  z-index: 100;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  text-align: center;
+  padding: 20px;
+  font-size: 20px;
+  color: gray;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #222;
+}
+
+.layout-body {
+  margin-top: 90px;
+  margin-bottom: 120px;
+}
+
+.layout-footer {
+  z-index: 100;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  text-align: center;
+  padding: 20px;
+  font-size: 20px;
+  color: gray;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #222;
+}

@@ -18,6 +18,7 @@ import { DividerModule } from 'primeng/divider';
 import { InputTextModule } from 'primeng/inputtext';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { BlockUIModule } from 'primeng/blockui';
+import { StepsModule } from 'primeng/steps';
 
 import { Routes, RouterModule } from '@angular/router';
 
@@ -28,7 +29,7 @@ const routes: Routes = [
 @NgModule({
   imports: [BrowserModule, BrowserAnimationsModule, HttpClientModule, RouterModule.forRoot(routes), FormsModule,
     ButtonModule, FileUploadModule, ScrollPanelModule, TabViewModule, PanelModule, TooltipModule, DividerModule,
-    OverlayPanelModule, RadioButtonModule, InputTextModule, ProgressSpinnerModule, BlockUIModule],
+    OverlayPanelModule, RadioButtonModule, InputTextModule, ProgressSpinnerModule, BlockUIModule, StepsModule],
   declarations: [AppComponent, HelloworldComponent],
   bootstrap: [AppComponent],
   exports: [RouterModule]

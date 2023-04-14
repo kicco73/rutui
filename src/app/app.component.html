@@ -5,7 +5,7 @@
 </p-blockUI>
 
 <div class="layout-body">
-<p-tabView>
+<p-tabView (onChange)="onChangeTab($event)">
   <p-tabPanel header="Data Ingestion">
 
       <div class="flex flex-wrap gap-3">
@@ -40,19 +40,19 @@
 
       <p-panel header="TBX summary" *ngIf="resource">
         <div>
-          <span>File size:</span> {{ resource.metadata.fileSize }}
+          <strong>File size:</strong> {{ resource.metadata.fileSize }}
         </div>
         <div>
-          <span>TBX dialect:</span> {{ resource.metadata.tbxType }}
+          <strong>TBX dialect:</strong> {{ resource.metadata.variant }}
         </div>
         <div>
-          <span>Number of concepts:</span> {{ resource.metadata.numberOfConcepts }}
+          <strong>Number of concepts:</strong> {{ resource.metadata.numberOfConcepts }}
         </div>
         <div>
-          <span>Number of languages:</span> {{ resource.metadata.numberOfLanguages }}
+          <strong>Number of languages:</strong> {{ resource.metadata.numberOfLanguages }}
         </div>
         <div>
-          <span>Number of terms:</span> {{ resource.metadata.numberOfTerms }}
+          <strong>Number of terms:</strong> {{ resource.metadata.numberOfTerms }}
         </div>
       </p-panel>
 

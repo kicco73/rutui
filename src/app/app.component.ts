@@ -2,15 +2,15 @@ import { Component, Output } from '@angular/core';
 import { FileUpload } from 'primeng/fileupload';
 
 type Resource = {
+  id: string;
   metadata: {
-    id: string;
     fileSize: number;
-    tbxType: string;
+    variant: string;
     numberOfConcepts: number;
     numberOfTerms: number;
     numberOfLanguages: number;
   };
-  sparql: String;
+  sparql?: String;
 }
 
 enum ConversionType {
@@ -36,11 +36,11 @@ export class AppComponent {
   async onUpload(event: FileUpload) {
     for(let file of event.files) {
       this.tbx = await file.text();
-      this.onConvert();
+      await this.onCreate();
     }
   }
 
-  async onConvert() {
+  async onCreate() {
     this.loading = true;
     fetch(this.restApi, {
       method: 'POST',
@@ -51,14 +51,29 @@ export class AppComponent {
       body: JSON.stringify({ 'tbx': this.tbx })
     })
     .then(response => response.json())
-    .then(sparql => this.resource = sparql)
+    .then(resource => this.resource = resource)
+    .catch(fail => console.error(fail))
+    .finally(() => this.loading = false)
+  }
+
+  async onConvert() {
+    this.loading = true;
+    fetch(`${this.restApi}/${this.resource!.id}/sparql`, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/sparql-query',
+        'Content-Type': 'application/json'
+      },
+    })
+    .then(response => response.text())
+    .then(sparql => this.resource!.sparql = sparql)
     .catch(fail => console.error(fail))
     .finally(() => this.loading = false)
   }
 
   async onSubmit() {
     this.loading = true;
-    fetch(`${this.restApi}/${this.resource!.metadata.id}/submit`, {
+    fetch(`${this.restApi}/${this.resource!.id}/submit`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -70,6 +85,13 @@ export class AppComponent {
     .then(json => this.resource = null)
     .catch(fail => console.error(fail))
     .finally(() => this.loading = false)
+  }
+
+  async onChangeTab(e: any) {
+    if (e.index == 4 && this.resource?.sparql == null) {
+      await this.onConvert();
+      console.log('ho finito')
+    }
   }
 
 }

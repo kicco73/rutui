@@ -6,8 +6,9 @@ type Resource = {
   metadata: {
     fileSize: number;
     variant: string;
-    numberOfConcepts: number;
+    concepts: {string: string[]};
     numberOfTerms: number;
+    numberOfConcepts: number;
     languages: string[];
   };
   sparql?: String;

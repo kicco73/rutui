@@ -40,26 +40,65 @@
 
       <p-panel header="TBX summary" *ngIf="resource">
         <div>
-          <strong>File size:</strong> {{ resource.metadata.fileSize }}
+          <strong>File size:</strong> {{ resource.fileSize }} bytes
         </div>
         <div>
-          <strong>TBX dialect:</strong> {{ resource.metadata.variant }}
+          <strong>TBX dialect:</strong> {{ resource.variant }}
         </div>
         <div>
           <strong>Languages:</strong>
-          <span *ngFor="let language of resource.metadata.languages">&nbsp;{{ language  }}</span>
+          <span *ngFor="let language of resource.languages">&nbsp;{{ language  }}</span>
         </div>
         <div>
-          <strong>Number of concepts:</strong> {{ resource.metadata.numberOfConcepts }}
+          <strong>Number of concepts:</strong> {{ resource.numberOfConcepts }}
         </div>
         <div>
-          <strong>Number of terms:</strong> {{ resource.metadata.numberOfTerms }}
+          <strong>Number of terms:</strong> {{ resource.numberOfTerms }}
         </div>
-      </p-panel>
 
+
+      </p-panel>
   </p-tabPanel>
 
-  <p-tabPanel header="Data Filtering" [disabled]="true" />
+  <p-tabPanel header="Data Filtering" [disabled]="resource == null">
+    <span *ngIf="resource">
+
+      <p-tree  id="originalFile" class="w-full md:w-30rem" [value]="concepts" [filter]="true" [filterPlaceholder]="'Search...'"></p-tree>
+
+      &nbsp;
+      <div>
+        <strong>Number of concepts:</strong> {{ resource.numberOfConcepts }}
+      </div>
+      <div>
+        <strong>Number of terms:</strong> {{ resource.numberOfTerms }}
+      </div>
+      &nbsp;
+      <strong>Languages to be converted</strong>
+      <div *ngFor="let entry of filterLanguage | keyvalue">
+        <p-checkbox (onChange)="onChangeLanguage($event, entry.key)" [(ngModel)]="entry.value" [binary]="true" inputId="filterLanguage"></p-checkbox> {{ entry.key }}
+      </div>
+
+      <p-treeTable id="filteredFile" selectionMode="checkbox" class="w-full md:w-30rem" [value]="filteredConcepts" [filterMode]="'lenient'" filterPlaceholder="Lenient Filter">
+        <ng-template pTemplate="header">
+          <tr>
+              <th>Concept</th>
+              <th>Description</th>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+          <tr [ttRow]="rowNode">
+              <td>
+                  <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+                  {{ rowData.id }}
+              </td>
+              <td>{{ rowNode.description }}</td>
+          </tr>
+      </ng-template>
+      </p-treeTable>
+
+
+    </span>
+  </p-tabPanel>
 
   <p-tabPanel header="Concept Mapping" [disabled]="true" />
 

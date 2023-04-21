@@ -19,6 +19,9 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { BlockUIModule } from 'primeng/blockui';
 import { StepsModule } from 'primeng/steps';
+import { CheckboxModule } from 'primeng/checkbox';
+import { TreeModule } from 'primeng/tree';
+import { TreeTableModule } from 'primeng/treetable';
 
 import { Routes, RouterModule } from '@angular/router';
 
@@ -29,7 +32,8 @@ const routes: Routes = [
 @NgModule({
   imports: [BrowserModule, BrowserAnimationsModule, HttpClientModule, RouterModule.forRoot(routes), FormsModule,
     ButtonModule, FileUploadModule, ScrollPanelModule, TabViewModule, PanelModule, TooltipModule, DividerModule,
-    OverlayPanelModule, RadioButtonModule, InputTextModule, ProgressSpinnerModule, BlockUIModule, StepsModule],
+    OverlayPanelModule, RadioButtonModule, InputTextModule, ProgressSpinnerModule, BlockUIModule, StepsModule,
+    CheckboxModule, TreeModule, TreeTableModule],
   declarations: [AppComponent, HelloworldComponent],
   bootstrap: [AppComponent],
   exports: [RouterModule]

@@ -6,13 +6,13 @@ export type Term = {
 
 export type Language = {
   definition?: string;
-  terms: [Term];
+  terms?: [Term];
 }
 
 export type Concept = {
   id: string,
   description: string,
-  languages: {string: Language}
+  languages: {[id: string]: Language}
 };
 
 export type Resource = {
@@ -45,8 +45,10 @@ export class RutService {
 
   async filterResource(id: string, languages: string[]): Promise<Resource> {
     let query = new URLSearchParams();
-    for (let language in languages)
+    for (let language of languages)
       query.append('languages', language);
+
+    console.log(`${this.restApi}/${id}?${query}`);
 
     let response = await fetch(`${this.restApi}/${id}?${query}`, {
       method: 'GET',
@@ -64,7 +66,7 @@ export class RutService {
   }
 
   async submitResource(id: string, repository: string): Promise<void> {
-    fetch(`${this.restApi}/${id}/submit`, {
+    await fetch(`${this.restApi}/${id}/submit`, {
       method: 'POST',
       headers: { 'Accept': this.mimetype.json, 'Content-Type': this.mimetype.json},
       body: JSON.stringify({ repository })

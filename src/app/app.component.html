@@ -38,79 +38,36 @@
 
       <div class="spacer"></div>
 
-      <p-panel header="TBX summary" *ngIf="resource">
-        <div>
-          <strong>File size:</strong> {{ resource.fileSize }} bytes
-        </div>
-        <div>
-          <strong>TBX dialect:</strong> {{ resource.variant }}
-        </div>
-        <div>
-          <strong>Languages:</strong>
-          <span *ngFor="let language of resource.languages">&nbsp;{{ language  }}</span>
-        </div>
-        <div>
-          <strong>Number of concepts:</strong> {{ resource.numberOfConcepts }}
-        </div>
-        <div>
-          <strong>Number of terms:</strong> {{ resource.numberOfTerms }}
-        </div>
+      <app-tbx-summary [resource]="resource"></app-tbx-summary>
 
+      <p-tree  id="originalFile" class="w-full md:w-30rem" *ngIf="concepts.length > 0" [value]="concepts" [filter]="true" [filterPlaceholder]="'Search...'"></p-tree>
 
-      </p-panel>
-  </p-tabPanel>
+    </p-tabPanel>
 
-  <p-tabPanel header="Data Filtering" [disabled]="resource == null">
-    <span *ngIf="resource">
+  <p-tabPanel header="Data Filtering" [disabled]="!resource">
+    <div *ngIf="resource">
 
-      <p-tree  id="originalFile" class="w-full md:w-30rem" [value]="concepts" [filter]="true" [filterPlaceholder]="'Search...'"></p-tree>
-
-      &nbsp;
-      <div>
-        <strong>Number of concepts:</strong> {{ resource.numberOfConcepts }}
-      </div>
-      <div>
-        <strong>Number of terms:</strong> {{ resource.numberOfTerms }}
-      </div>
-      &nbsp;
-      <strong>Languages to be converted</strong>
-      <div *ngFor="let entry of filterLanguage | keyvalue">
+      <strong>Languages to be converted: </strong>&nbsp;
+      <span *ngFor="let entry of filterLanguage | keyvalue">
         <p-checkbox (onChange)="onChangeLanguage($event, entry.key)" [(ngModel)]="entry.value" [binary]="true" inputId="filterLanguage"></p-checkbox> {{ entry.key }}
-      </div>
+      </span>
 
-      <p-treeTable id="filteredFile" selectionMode="checkbox" class="w-full md:w-30rem" [value]="filteredConcepts" [filterMode]="'lenient'" filterPlaceholder="Lenient Filter">
-        <ng-template pTemplate="header">
-          <tr>
-              <th>Concept</th>
-              <th>Description</th>
-          </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
-          <tr [ttRow]="rowNode">
-              <td>
-                  <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
-                  {{ rowData.id }}
-              </td>
-              <td>{{ rowNode.description }}</td>
-          </tr>
-      </ng-template>
-      </p-treeTable>
+      <app-filter-view [resource]="filteredResource"></app-filter-view>
 
-
-    </span>
+    </div>
   </p-tabPanel>
 
   <p-tabPanel header="Concept Mapping" [disabled]="true" />
 
   <p-tabPanel header="Term Mapping" [disabled]="true" />
 
-  <p-tabPanel header="Converted Data" [disabled]="resource == null">
+  <p-tabPanel header="Converted Data" [disabled]="!resource">
 
-    <div class="flex flex-wrap gap-3" *ngIf="resource == null">
+    <div class="flex flex-wrap gap-3" *ngIf="!resource">
       <strong>Successfully submitted!</strong>
     </div>
 
-    <div class="flex flex-wrap gap-3" *ngIf="resource != null">
+    <div class="flex flex-wrap gap-3" *ngIf="resource">
       <strong>Target repository:</strong>
       &nbsp;
       <input type="text" pInputText [(ngModel)]="repository" />
@@ -118,7 +75,7 @@
       <p-button (click)="onSubmit()" styleClass="p-button-raised p-button-success">Submit</p-button>
     </div>
 
-    <p-scrollPanel [style]="{width: '1000%', height: '100%'}" *ngIf="resource != null">
+    <p-scrollPanel [style]="{width: '1000%', height: '100%'}" *ngIf="resource">
       <pre>{{ resource.sparql }}</pre>
     </p-scrollPanel>
   </p-tabPanel>

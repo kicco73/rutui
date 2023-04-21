@@ -1,0 +1,20 @@
+
+<p-panel header="TBX summary" *ngIf="resource">
+  <div>
+    <strong>File size:</strong> {{ resource.fileSize }} bytes
+  </div>
+  <div>
+    <strong>TBX dialect:</strong> {{ resource.variant }}
+  </div>
+  <div>
+    <strong>Languages:</strong>
+    <span *ngFor="let language of resource.languages">&nbsp;{{ language  }}</span>
+  </div>
+  <div>
+    <strong>Number of concepts:</strong> {{ resource.numberOfConcepts }}
+  </div>
+  <div>
+    <strong>Number of terms:</strong> {{ resource.numberOfTerms }}
+  </div>
+
+</p-panel>

@@ -6,12 +6,12 @@ export type Term = {
 
 export type Language = {
   definition?: string;
+  label: string,
   terms?: [Term];
 }
 
 export type Concept = {
   id: string,
-  description: string,
   languages: {[id: string]: Language}
 };
 
@@ -34,6 +34,13 @@ export class RutService {
 
   constructor() { }
 
+  private buildFilterQuery(languages: string[]):  URLSearchParams {
+    let query = new URLSearchParams();
+    for (let language of languages)
+      query.append('languages', language);
+    return query;
+  }
+
   async createResource(tbx: string): Promise<Resource> {
     let response : Response = await fetch(this.restApi, {
       method: 'POST',
@@ -44,12 +51,7 @@ export class RutService {
   }
 
   async filterResource(id: string, languages: string[]): Promise<Resource> {
-    let query = new URLSearchParams();
-    for (let language of languages)
-      query.append('languages', language);
-
-    console.log(`${this.restApi}/${id}?${query}`);
-
+    let query = this.buildFilterQuery(languages);
     let response = await fetch(`${this.restApi}/${id}?${query}`, {
       method: 'GET',
       headers: {'Accept': this.mimetype.json, 'Content-Type': this.mimetype.json},
@@ -57,8 +59,9 @@ export class RutService {
     return response.json();
   }
 
-  async assembleResource(id: string): Promise<string> {
-    return fetch(`${this.restApi}/${id}/sparql`, {
+  async assembleResource(id: string, languages: string[]): Promise<string> {
+    let query = this.buildFilterQuery(languages);
+    return fetch(`${this.restApi}/${id}/sparql?${query}`, {
       method: 'GET',
       headers: { 'Accept': this.mimetype.sparql, 'Content-Type': this.mimetype.json},
     })

@@ -36,12 +36,19 @@ export class AppComponent {
     }
   }
 
+  private getLabel(concept: Concept): string | undefined {
+    for (let language of Object.keys(concept.languages)) {
+      return `${concept.languages[language].label} (${concept.id})`;
+    }
+    return undefined;
+  }
+
   prepareTreeNode(concepts: {[id: string] : Concept}) {
     let conceptNodes : TreeNode[] = [];
 
     for (let concept of Object.values(concepts)) {
-      let { id, description } = concept;
-      let label = `${description} (${id})`;
+      let { id } = concept;
+      let label = this.getLabel(concept);
 
       let languageNodes : object[] = [];
       for (let [langId, language] of Object.entries(concept.languages)) {
@@ -98,10 +105,18 @@ export class AppComponent {
     }
   }
 
-  async onConvert() {
+  private getLanguages(): string[] {
+    let languages : string[] = [];
+    for (let [language, enabled] of Object.entries(this.filterLanguage))
+      if (enabled) languages.push(language);
+    return languages;
+  }
+
+  async onFilter() {
     this.loading = true;
     try {
-      this.resource!.sparql = await this.rutService.assembleResource(this.resource!.id);
+      let languages : string[] = this.getLanguages();
+      this.filteredResource = await this.rutService.filterResource(this.resource!.id, languages);
     }
     catch(fail) {
       console.error(fail);
@@ -111,14 +126,13 @@ export class AppComponent {
     }
   }
 
-  async onFilter() {
+  async onAssemble() {
     this.loading = true;
+    this.resource!.sparql = undefined;
     try {
-      let languages : string[] = [];
-      for (let [language, enabled] of Object.entries(this.filterLanguage))
-        if (enabled) languages.push(language);
-
-      this.filteredResource = await this.rutService.filterResource(this.resource!.id, languages);
+      let languages : string[] = this.getLanguages();
+      console.log(languages);
+      this.resource!.sparql = await this.rutService.assembleResource(this.resource!.id, languages);
     }
     catch(fail) {
       console.error(fail);
@@ -145,10 +159,8 @@ export class AppComponent {
   }
 
   async onChangeTab(e: any) {
-    if (e.index == 4 && !this.resource?.sparql) {
-      await this.onConvert();
-    } else if (e.index == 1 && this.filteredResource) {
-      await this.onFilter();
+    if (e.index == 4) {
+      await this.onAssemble();
     }
   }
 

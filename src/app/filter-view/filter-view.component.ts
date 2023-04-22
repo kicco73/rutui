@@ -11,12 +11,19 @@ export class FilterViewComponent implements OnChanges {
   @Input() resource?: Resource;
   treeNodes: TreeNode[] = [];
 
+  getLabel(concept: Concept): string | undefined {
+    for (let language of Object.keys(concept.languages)) {
+      return `${concept.languages[language].label} (${concept.id})`;
+    }
+    return undefined;
+  }
+
   prepareTreeTableNode(): void {
     this.treeNodes = [];
 
     for (let concept of Object.values(this.resource!.concepts)) {
-      let { id, description } = concept;
-      let label = `${description} (${id})`;
+      let { id } = concept;
+      let label = this.getLabel(concept);
 
       let descriptionNode: TreeNode = {
         data: {

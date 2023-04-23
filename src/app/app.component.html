@@ -38,7 +38,7 @@
 
       <div class="spacer"></div>
 
-      <app-tbx-summary [resource]="resource"></app-tbx-summary>
+      <app-tbx-summary [summary]="resource?.summary"></app-tbx-summary>
 
       <p-tree  id="originalFile" class="w-full md:w-30rem" *ngIf="concepts.length > 0" [value]="concepts" [filter]="true" [filterPlaceholder]="'Search...'"></p-tree>
 

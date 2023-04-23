@@ -42,7 +42,7 @@ export class FilterViewComponent implements OnChanges {
         children: [descriptionNode],
       };
 
-      for (let language of this.resource!.languages) {
+      for (let language of this.resource!.summary.languages) {
         let x = [];
         if (concept.languages[language]?.terms) {
           for (let term of concept.languages[language].terms!) {

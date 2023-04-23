@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Resource } from '../rut/rut.service';
+import { Summary } from '../rut/rut.service';
 
 @Component({
   selector: 'app-tbx-summary',
@@ -7,5 +7,5 @@ import { Resource } from '../rut/rut.service';
   styleUrls: ['./tbx-summary.component.css']
 })
 export class TbxSummaryComponent {
-  @Input() resource?: Resource;
+  @Input() summary?: Summary;
 }

@@ -15,14 +15,18 @@ export type Concept = {
   languages: {[id: string]: Language}
 };
 
-export type Resource = {
-  id: string;
+export type Summary = {
   fileSize: number;
   variant: string;
-  concepts: {[id: string]: Concept};
   numberOfTerms: number;
   numberOfConcepts: number;
   languages: string[];
+}
+
+export type Resource = {
+  id: string;
+  summary: Summary;
+  concepts: {[id: string]: Concept};
   sparql?: String;
 }
 @Injectable({

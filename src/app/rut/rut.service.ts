@@ -20,7 +20,7 @@ export type Summary = {
   variant: string;
   numberOfTerms: number;
   numberOfConcepts: number;
-  languages: string[];
+  languages: {[lang: string]: number};
 }
 
 export type Resource = {

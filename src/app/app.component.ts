@@ -91,7 +91,8 @@ export class AppComponent {
       this.resource = await this.rutService.createResource(this.tbx);
       this.filterLanguage = {};
       this.filteredResource = this.resource;
-      for (let language of this.resource!.summary.languages)
+      let languages = Object.keys(this.resource!.summary.languages);
+      for (let language of languages)
         this.filterLanguage[language] = true;
 
       this.concepts = this.prepareTreeNode(this.resource.concepts);

@@ -10,6 +10,7 @@ import { Concept, Resource } from '../rut/rut.service';
 export class FilterViewComponent implements OnChanges {
   @Input() resource?: Resource;
   treeNodes: TreeNode[] = [];
+  columns: string[] = [];
 
   getLabel(concept: Concept): string | undefined {
     for (let language of Object.keys(concept.languages)) {
@@ -42,7 +43,7 @@ export class FilterViewComponent implements OnChanges {
         children: [descriptionNode],
       };
 
-      for (let language of this.resource!.summary.languages) {
+      for (let language of this.columns) {
         let x = [];
         if (concept.languages[language]?.terms) {
           for (let term of concept.languages[language].terms!) {
@@ -66,6 +67,7 @@ export class FilterViewComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     this.resource = changes['resource'].currentValue;
+    this.columns = Object.keys(this.resource!.summary.languages);
     this.prepareTreeTableNode();
   }
 }

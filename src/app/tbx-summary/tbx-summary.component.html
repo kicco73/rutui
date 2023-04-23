@@ -7,14 +7,14 @@
     <strong>TBX dialect:</strong> {{ summary.variant }}
   </div>
   <div>
-    <strong>Languages:</strong>
-    <span *ngFor="let language of summary.languages">&nbsp;{{ language  }}</span>
-  </div>
-  <div>
     <strong>Number of concepts:</strong> {{ summary.numberOfConcepts }}
   </div>
   <div>
     <strong>Number of terms:</strong> {{ summary.numberOfTerms }}
+  </div>
+  <div>
+    <strong>Languages:</strong>
+    <span *ngFor="let language of summary.languages | keyvalue, let i = index">{{ i > 0?', ' : ''}}&nbsp;{{ language.key  }} ({{ language.value }})</span>
   </div>
 
 </p-panel>

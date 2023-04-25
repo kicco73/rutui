@@ -35,7 +35,7 @@
       </td>
       <td *ngFor="let term of rowData.terms">
         <ul>
-          <li *ngFor="let value of term">{{ value }}</li>
+          <li *ngFor="let value of term">{{ value.t }} <span *ngIf="value.p">({{ value.p }})</span></li>
         </ul>
       </td>
     </tr>

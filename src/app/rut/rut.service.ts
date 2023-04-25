@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 
 export type Term = {
   t: string;
+  p?: string;
+  l?: string;
 }
 
 export type Language = {
@@ -21,6 +23,9 @@ export type Summary = {
   numberOfTerms: number;
   numberOfConcepts: number;
   languages: {[lang: string]: number};
+  dates?: string[];
+  subjectFields?: string[];
+  polysemic?: Term[];
 }
 
 export type Resource = {
@@ -29,6 +34,14 @@ export type Resource = {
   concepts: {[id: string]: Concept};
   sparql?: String;
 }
+
+export type Filter = {
+  languages: string[];
+  dates: string[];
+  subjectFields: string[];
+  noConcepts: boolean;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -38,10 +51,16 @@ export class RutService {
 
   constructor() { }
 
-  private buildFilterQuery(languages: string[]):  URLSearchParams {
+  private buildFilterQuery(filter: Filter):  URLSearchParams {
+    let { languages, dates, subjectFields, noConcepts } = filter;
     let query = new URLSearchParams();
     for (let language of languages)
       query.append('languages', language);
+    for (let date of dates)
+      query.append('dates', date);
+      for (let subjectField of subjectFields)
+      query.append('subjectFields', subjectField);
+    query.append('noConcepts', `${noConcepts}`);
     return query;
   }
 
@@ -54,8 +73,8 @@ export class RutService {
     return response.json();
   }
 
-  async filterResource(id: string, languages: string[]): Promise<Resource> {
-    let query = this.buildFilterQuery(languages);
+  async filterResource(id: string, filter: Filter): Promise<Resource> {
+    let query = this.buildFilterQuery(filter);
     let response = await fetch(`${this.restApi}/${id}?${query}`, {
       method: 'GET',
       headers: {'Accept': this.mimetype.json, 'Content-Type': this.mimetype.json},
@@ -63,8 +82,8 @@ export class RutService {
     return response.json();
   }
 
-  async assembleResource(id: string, languages: string[]): Promise<string> {
-    let query = this.buildFilterQuery(languages);
+  async assembleResource(id: string, filter: Filter): Promise<string> {
+    let query = this.buildFilterQuery(filter);
     return fetch(`${this.restApi}/${id}/sparql?${query}`, {
       method: 'GET',
       headers: { 'Accept': this.mimetype.sparql, 'Content-Type': this.mimetype.json},

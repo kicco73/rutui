@@ -1,11 +1,18 @@
 <div class="layout-header">TBX to Lemon interactive tool</div>
 
+<div class="progressBar" *ngIf="0 < progress && progress < 100">
+  <p-progressBar [value]="progress"></p-progressBar>
+</div>
+
 <p-blockUI [blocked]="loading">
   <p-progressSpinner></p-progressSpinner>
 </p-blockUI>
 
+<p-toast></p-toast>
+
+
 <div class="layout-body">
-<p-tabView (onChange)="onChangeTab($event)">
+  <p-tabView (onChange)="onChangeTab($event)">
   <p-tabPanel header="Data Ingestion">
 
       <div class="flex flex-wrap gap-3">
@@ -40,32 +47,97 @@
 
       <app-tbx-summary [summary]="resource?.summary"></app-tbx-summary>
 
-      <p-tree  id="originalFile" class="w-full md:w-30rem" *ngIf="concepts.length > 0" [value]="concepts" [filter]="true" [filterPlaceholder]="'Search...'"></p-tree>
-
     </p-tabPanel>
 
   <p-tabPanel header="Data Filtering" [disabled]="!resource">
     <div *ngIf="resource">
+      <strong>Languages: </strong>&nbsp;
+      <p-multiSelect (onChange)="onChangeLanguage($event)" [filter]="false" [options]="resource.summary.languages | keys" [(ngModel)]="filter.languages"></p-multiSelect>
 
-      <strong>Languages to be converted: </strong>&nbsp;
-      <span *ngFor="let entry of filterLanguage | keyvalue">
-        <p-checkbox (onChange)="onChangeLanguage($event, entry.key)" [(ngModel)]="entry.value" [binary]="true" inputId="filterLanguage"></p-checkbox> {{ entry.key }}
-      </span>
+      &nbsp;
+      &nbsp;
+
+      <strong>Subject Field: </strong>&nbsp;
+      <p-multiSelect (onChange)="onChangeSubjectField($event)" [filter]="false" [options]="resource.summary.subjectFields? resource.summary.subjectFields : []" [(ngModel)]="filter.subjectFields"></p-multiSelect>
+
+      &nbsp;
+      &nbsp;
+
+      <strong>Concept date: </strong>&nbsp;
+      <p-multiSelect (onChange)="onChangeDates($event)" [filter]="false" [options]="resource.summary.dates? resource.summary.dates : []" [(ngModel)]="filter.dates"></p-multiSelect>
+
+      <p-divider></p-divider>
 
       <app-filter-view [resource]="filteredResource"></app-filter-view>
 
     </div>
   </p-tabPanel>
 
-  <p-tabPanel header="Concept Mapping" [disabled]="true" />
+  <p-tabPanel header="Concept Mapping" [disabled]="!resource">
+    <strong>Default namespace: </strong>&nbsp;
+    <input type="text" pInputText [(ngModel)]="defaultNamespace" />
+    &nbsp;&nbsp;
+    <strong>Map concept to: </strong>&nbsp;
+    <p-dropdown [options]="[{name: 'No Concept', code: 'none'}, {name: 'URL', code: 'url'}, {name: 'Lexical Concept', code: 'lexical'}, {name: 'Skos Concept', code: 'skos'},{name: 'OWL Concept', code: 'owl'}]" [(ngModel)]="conceptMapping" optionValue="code" optionLabel="name"></p-dropdown>
 
-  <p-tabPanel header="Term Mapping" [disabled]="true" />
+    <p-divider></p-divider>
+
+    <p-table *ngIf="filteredResource" [value]="filteredResource!.concepts | keyvalue" [tableStyle]="{ 'min-width': '50rem' }">
+      <ng-template pTemplate="header">
+          <tr>
+              <th>Concept</th>
+              <th>Relationship</th>
+              <th>URL</th>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-item>
+          <tr>
+              <td>{{ item.value.id }}</td>
+              <td>
+                <p-radioButton name="relationship{{ item.value.id }}" value="See also" [(ngModel)]="conversionType" inputId="seeAlso{{ item.value.id }}"></p-radioButton>
+                <label for="interactive" class="ml-2"> See also</label>
+                &nbsp;
+                <p-radioButton name="relationship{{ item.value.id }}" value="Same as" [(ngModel)]="conversionType" inputId="sameAs{{ item.value.id }}"></p-radioButton>
+                <label for="conversionType" class="ml-2"> Same as</label>
+              </td>
+              <td>
+                <input type="text" pInputText />
+              </td>
+          </tr>
+      </ng-template>
+    </p-table>
+  </p-tabPanel>
+
+  <p-tabPanel header="Term Mapping" [disabled]="!filteredResource">
+
+    <div>
+      <p-checkbox [binary]="true" [(ngModel)]="filter.noConcepts"></p-checkbox> No concepts
+    </div>
+
+    <p-divider></p-divider>
+
+    <strong>Polysemic entries</strong>
+    <p-table *ngIf="filteredResource?.summary?.polysemic" [value]="filteredResource!.summary.polysemic!" [tableStyle]="{ 'min-width': '50rem' }">
+      <ng-template pTemplate="header">
+          <tr>
+              <th>Term</th>
+              <th>Language</th>
+              <th>Concept</th>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-item>
+          <tr>
+              <td>{{ item.t }}</td>
+              <td>{{ item.l }}</td>
+              <td>{{ item.c }}</td>
+          </tr>
+      </ng-template>
+    </p-table>
+
+  </p-tabPanel>
+
 
   <p-tabPanel header="Converted Data" [disabled]="!resource">
-
-    <div class="flex flex-wrap gap-3" *ngIf="!resource">
-      <strong>Successfully submitted!</strong>
-    </div>
 
     <div class="flex flex-wrap gap-3" *ngIf="resource">
       <strong>Target repository:</strong>

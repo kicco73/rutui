@@ -1,5 +1,7 @@
 
 <p-panel header="TBX summary" *ngIf="summary">
+
+  <p-chart  type="doughnut" [data]="data" [options]="options"></p-chart>
   <div>
     <strong>File size:</strong> {{ summary.fileSize }} bytes
   </div>
@@ -11,10 +13,6 @@
   </div>
   <div>
     <strong>Number of terms:</strong> {{ summary.numberOfTerms }}
-  </div>
-  <div>
-    <strong>Languages:</strong>
-    <span *ngFor="let language of summary.languages | keyvalue, let i = index">{{ i > 0?', ' : ''}}&nbsp;{{ language.key  }} ({{ language.value }})</span>
   </div>
 
 </p-panel>

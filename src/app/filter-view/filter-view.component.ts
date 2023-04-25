@@ -47,7 +47,7 @@ export class FilterViewComponent implements OnChanges {
         let x = [];
         if (concept.languages[language]?.terms) {
           for (let term of concept.languages[language].terms!) {
-            x.push(term.t);
+            x.push(term);
           }
         }
         conceptNode.data.terms.push(x);

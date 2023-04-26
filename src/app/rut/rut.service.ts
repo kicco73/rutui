@@ -40,6 +40,7 @@ export type Filter = {
   dates: string[];
   subjectFields: string[];
   noConcepts: boolean;
+  noSenses: boolean;
 }
 
 @Injectable({
@@ -52,7 +53,7 @@ export class RutService {
   constructor() { }
 
   private buildFilterQuery(filter: Filter):  URLSearchParams {
-    let { languages, dates, subjectFields, noConcepts } = filter;
+    let { languages, dates, subjectFields, noConcepts, noSenses } = filter;
     let query = new URLSearchParams();
     for (let language of languages)
       query.append('languages', language);
@@ -61,6 +62,7 @@ export class RutService {
       for (let subjectField of subjectFields)
       query.append('subjectFields', subjectField);
     query.append('noConcepts', `${noConcepts}`);
+    query.append('noSenses', `${noSenses}`);
     return query;
   }
 

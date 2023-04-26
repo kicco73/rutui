@@ -51,6 +51,7 @@ export class AppComponent {
       subjectFields: [],
       languages: [],
       noConcepts: false,
+      noSenses: true,
     };
   }
 

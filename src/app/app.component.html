@@ -74,65 +74,80 @@
   </p-tabPanel>
 
   <p-tabPanel header="Concept Mapping" [disabled]="!resource">
-    <strong>Default namespace: </strong>&nbsp;
-    <input type="text" pInputText [(ngModel)]="defaultNamespace" />
-    &nbsp;&nbsp;
-    <strong>Map concept to: </strong>&nbsp;
-    <p-dropdown [options]="[{name: 'No Concept', code: 'none'}, {name: 'URL', code: 'url'}, {name: 'Lexical Concept', code: 'lexical'}, {name: 'Skos Concept', code: 'skos'},{name: 'OWL Concept', code: 'owl'}]" [(ngModel)]="conceptMapping" optionValue="code" optionLabel="name"></p-dropdown>
 
-    <p-divider></p-divider>
+    <div>
+      <p-checkbox label="No concepts" [binary]="true" [(ngModel)]="filter.noConcepts"></p-checkbox>&nbsp;
+    </div>
 
-    <p-table *ngIf="filteredResource" [value]="filteredResource!.concepts | keyvalue" [tableStyle]="{ 'min-width': '50rem' }">
-      <ng-template pTemplate="header">
-          <tr>
-              <th>Concept</th>
-              <th>Relationship</th>
-              <th>URL</th>
-          </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-item>
-          <tr>
-              <td>{{ item.value.id }}</td>
-              <td>
-                <p-radioButton name="relationship{{ item.value.id }}" value="See also" [(ngModel)]="conversionType" inputId="seeAlso{{ item.value.id }}"></p-radioButton>
-                <label for="interactive" class="ml-2"> See also</label>
-                &nbsp;
-                <p-radioButton name="relationship{{ item.value.id }}" value="Same as" [(ngModel)]="conversionType" inputId="sameAs{{ item.value.id }}"></p-radioButton>
-                <label for="conversionType" class="ml-2"> Same as</label>
-              </td>
-              <td>
-                <input type="text" pInputText />
-              </td>
-          </tr>
-      </ng-template>
-    </p-table>
+    <div *ngIf="!filter.noConcepts">
+      <span>
+        <label for="mapConceptTo">Map concept to: </label>&nbsp;
+        <p-dropdown name="mapConceptTo" [options]="[{name: 'URL', code: 'url'}, {name: 'Lexical Concept', code: 'lexical'}, {name: 'Skos Concept', code: 'skos'},{name: 'OWL Concept', code: 'owl'}]" [(ngModel)]="conceptMapping" optionValue="code" optionLabel="name"></p-dropdown>
+      </span>
+
+      <div>
+        <label for="defaultNamespace">Default namespace: </label>&nbsp;
+        <input name="defaultNamespace" type="text" pInputText [(ngModel)]="defaultNamespace" />
+
+      </div>
+      <p-divider></p-divider>
+
+      <p-table *ngIf="filteredResource" [value]="filteredResource!.concepts | keyvalue" [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Concept</th>
+                <th>Relationship</th>
+                <th>URL</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+            <tr>
+                <td>{{ item.value.id }}</td>
+                <td>
+                  <p-radioButton name="relationship{{ item.value.id }}" value="See also" [(ngModel)]="conversionType" inputId="seeAlso{{ item.value.id }}"></p-radioButton>
+                  <label for="interactive" class="ml-2"> See also</label>
+                  &nbsp;
+                  <p-radioButton name="relationship{{ item.value.id }}" value="Same as" [(ngModel)]="conversionType" inputId="sameAs{{ item.value.id }}"></p-radioButton>
+                  <label for="conversionType" class="ml-2"> Same as</label>
+                </td>
+                <td>
+                  <input type="text" pInputText />
+                </td>
+            </tr>
+        </ng-template>
+      </p-table>
+
+    </div>
   </p-tabPanel>
 
   <p-tabPanel header="Term Mapping" [disabled]="!filteredResource">
 
     <div>
-      <p-checkbox [binary]="true" [(ngModel)]="filter.noConcepts"></p-checkbox> No concepts
+      <p-checkbox label="No lexical senses" [binary]="true" [(ngModel)]="filter.noSenses"></p-checkbox>
     </div>
 
     <p-divider></p-divider>
 
-    <strong>Polysemic entries</strong>
-    <p-table *ngIf="filteredResource?.summary?.polysemic" [value]="filteredResource!.summary.polysemic!" [tableStyle]="{ 'min-width': '50rem' }">
-      <ng-template pTemplate="header">
-          <tr>
-              <th>Term</th>
-              <th>Language</th>
-              <th>Concept</th>
-          </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-item>
-          <tr>
-              <td>{{ item.t }}</td>
-              <td>{{ item.l }}</td>
-              <td>{{ item.c }}</td>
-          </tr>
-      </ng-template>
-    </p-table>
+    <div *ngIf="!filter.noSenses">
+      <strong>Polysemic entries</strong>
+      <p-table *ngIf="filteredResource?.summary?.polysemic" [value]="filteredResource!.summary.polysemic!" [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Term</th>
+                <th>Language</th>
+                <th>Concept</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+            <tr>
+                <td>{{ item.t }}</td>
+                <td>{{ item.l }}</td>
+                <td>{{ item.c }}</td>
+            </tr>
+        </ng-template>
+      </p-table>
+
+    </div>
 
   </p-tabPanel>
 

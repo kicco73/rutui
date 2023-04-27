@@ -34,6 +34,7 @@ import { TbxSummaryComponent } from './tbx-summary/tbx-summary.component';
 import { FilterViewComponent } from './filter-view/filter-view.component';
 import { IndexOfPipe } from './index-of.pipe';
 import { KeysPipe } from './keys.pipe';
+import { QueryViewComponent } from './query-view/query-view.component';
 
 const routes: Routes = [
 //  { path: 'hello', component: HelloworldComponent }
@@ -48,7 +49,7 @@ const config: SocketIoConfig = { url: 'http://localhost:8080', options: {} };
     CheckboxModule, TreeModule, TreeTableModule, ChartModule, ToastModule, ProgressBarModule, TableModule,
     DropdownModule, MultiSelectModule,
     SocketIoModule.forRoot(config)],
-  declarations: [AppComponent, TbxSummaryComponent, FilterViewComponent, IndexOfPipe, KeysPipe],
+  declarations: [AppComponent, TbxSummaryComponent, FilterViewComponent, IndexOfPipe, KeysPipe, QueryViewComponent],
   bootstrap: [AppComponent],
   exports: [RouterModule]
 })

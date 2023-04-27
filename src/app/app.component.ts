@@ -4,7 +4,7 @@ import { FileUpload } from 'primeng/fileupload';
 
 import { RutService } from './rut/rut.service';
 import { NotificationService } from './rut/notification.service';
-import type { Resource, Filter } from './rut/rut.service';
+import type { Resource, Filter, GraphDbResult } from './rut/rut.service';
 import type { Notification, JobUpdate } from './rut/notification.service';
 import { MessageService } from 'primeng/api';
 
@@ -32,6 +32,7 @@ export class AppComponent {
   conceptMapping: string = 'skos';
   defaultNamespace: string = "http://txt2rdf/test#";
   filter: Filter;
+  queryResult?: GraphDbResult;
 
   constructor(public messageService: MessageService, private rutService: RutService, private notificationService: NotificationService) {
     this.filter = this.newFilter();
@@ -52,6 +53,7 @@ export class AppComponent {
       languages: [],
       noConcepts: false,
       noSenses: true,
+      synonyms: false,
     };
   }
 
@@ -65,6 +67,7 @@ export class AppComponent {
   async onCreate() {
     this.loading = true;
     try {
+      this.queryResult = undefined;
       this.resource = await this.rutService.createResource(this.tbx);
       this.filter = this.newFilter();
       this.filteredResource = this.resource;
@@ -115,6 +118,7 @@ export class AppComponent {
     this.loading = true;
     try {
       await this.rutService.submitResource(this.resource!.id, this.repository);
+      this.queryResult = await this.rutService.queryResource(this.resource!.id, this.repository);
       this.resource = undefined;
       this.filteredResource = undefined;
     }

@@ -1,3 +1,4 @@
+import { query } from '@angular/animations';
 import { Injectable } from '@angular/core';
 
 export type Term = {
@@ -41,6 +42,22 @@ export type Filter = {
   subjectFields: string[];
   noConcepts: boolean;
   noSenses: boolean;
+  synonyms: boolean;
+}
+
+export type GraphDbResultValue = {
+  type: string;
+  value: string;
+  "xml:lang"?: string;
+}
+
+export type GraphDbResult = {
+  head: {
+    vars: string[],
+  },
+  results: {
+    bindings: {[key:string]: GraphDbResultValue}[]
+  }
 }
 
 @Injectable({
@@ -53,7 +70,7 @@ export class RutService {
   constructor() { }
 
   private buildFilterQuery(filter: Filter):  URLSearchParams {
-    let { languages, dates, subjectFields, noConcepts, noSenses } = filter;
+    let { languages, dates, subjectFields, noConcepts, noSenses, synonyms } = filter;
     let query = new URLSearchParams();
     for (let language of languages)
       query.append('languages', language);
@@ -63,6 +80,7 @@ export class RutService {
       query.append('subjectFields', subjectField);
     query.append('noConcepts', `${noConcepts}`);
     query.append('noSenses', `${noSenses}`);
+    query.append('synonyms', `${synonyms}`);
     return query;
   }
 
@@ -94,11 +112,19 @@ export class RutService {
   }
 
   async submitResource(id: string, repository: string): Promise<void> {
-    await fetch(`${this.restApi}/${id}/submit`, {
-      method: 'POST',
+    await fetch(`${this.restApi}/${id}/graphdb`, {
+      method: 'PUT',
       headers: { 'Accept': this.mimetype.json, 'Content-Type': this.mimetype.json},
       body: JSON.stringify({ repository })
     })
+  }
+
+  async queryResource(id: string, repository: string): Promise<GraphDbResult> {
+    return fetch(`${this.restApi}/${id}/graphdb?repository=${repository}`, {
+      method: 'GET',
+      headers: { 'Accept': this.mimetype.json, 'Content-Type': this.mimetype.json},
+    })
+    .then(response => response.json())
   }
 
 }

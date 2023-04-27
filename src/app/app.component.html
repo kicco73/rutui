@@ -10,12 +10,11 @@
 
 <p-toast></p-toast>
 
-
 <div class="layout-body">
   <p-tabView (onChange)="onChangeTab($event)">
   <p-tabPanel header="Data Ingestion">
 
-      <div class="flex flex-wrap gap-3">
+    <div class="flex flex-wrap gap-3">
         <div class="flex align-items-center">
           <strong>Conversion type:</strong>
           &nbsp;
@@ -124,6 +123,8 @@
 
     <div>
       <p-checkbox label="No lexical senses" [binary]="true" [(ngModel)]="filter.noSenses"></p-checkbox>
+      &nbsp;
+      <p-checkbox label="Synonyms" [binary]="true" [(ngModel)]="filter.synonyms" [disabled]="filter.noSenses"></p-checkbox>
     </div>
 
     <p-divider></p-divider>
@@ -160,11 +161,13 @@
       <input type="text" pInputText [(ngModel)]="repository" />
       &nbsp;
       <p-button (click)="onSubmit()" styleClass="p-button-raised p-button-success">Submit</p-button>
+      <p-scrollPanel [style]="{width: '1000%', height: '100%'}" *ngIf="resource">
+        <pre>{{ resource.sparql }}</pre>
+      </p-scrollPanel>
     </div>
 
-    <p-scrollPanel [style]="{width: '1000%', height: '100%'}" *ngIf="resource">
-      <pre>{{ resource.sparql }}</pre>
-    </p-scrollPanel>
+    <app-query-view [result]="queryResult"></app-query-view>
+
   </p-tabPanel>
 
 </p-tabView>

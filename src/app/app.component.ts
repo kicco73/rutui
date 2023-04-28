@@ -53,6 +53,8 @@ export class AppComponent {
       languages: [],
       noConcepts: false,
       noSenses: true,
+      translateTerms: false,
+      translateSenses: false,
       synonyms: false,
     };
   }

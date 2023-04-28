@@ -124,6 +124,10 @@
     <div>
       <p-checkbox label="No lexical senses" [binary]="true" [(ngModel)]="filter.noSenses"></p-checkbox>
       &nbsp;
+      <p-checkbox label="Translate terms" [binary]="true" [(ngModel)]="filter.translateTerms" [disabled]="!filter.noSenses"></p-checkbox>
+      &nbsp;
+      <p-checkbox label="Translate senses" [binary]="true" [(ngModel)]="filter.translateSenses" [disabled]="filter.noSenses"></p-checkbox>
+      &nbsp;
       <p-checkbox label="Synonyms" [binary]="true" [(ngModel)]="filter.synonyms" [disabled]="filter.noSenses"></p-checkbox>
     </div>
 

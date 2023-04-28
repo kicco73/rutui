@@ -42,6 +42,8 @@ export type Filter = {
   subjectFields: string[];
   noConcepts: boolean;
   noSenses: boolean;
+  translateTerms: boolean;
+  translateSenses: boolean;
   synonyms: boolean;
 }
 
@@ -70,7 +72,7 @@ export class RutService {
   constructor() { }
 
   private buildFilterQuery(filter: Filter):  URLSearchParams {
-    let { languages, dates, subjectFields, noConcepts, noSenses, synonyms } = filter;
+    let { languages, dates, subjectFields, noConcepts, noSenses, synonyms, translateTerms, translateSenses } = filter;
     let query = new URLSearchParams();
     for (let language of languages)
       query.append('languages', language);
@@ -80,6 +82,8 @@ export class RutService {
       query.append('subjectFields', subjectField);
     query.append('noConcepts', `${noConcepts}`);
     query.append('noSenses', `${noSenses}`);
+    query.append('translateTerms', `${translateTerms}`);
+    query.append('translateSenses', `${translateSenses}`);
     query.append('synonyms', `${synonyms}`);
     return query;
   }

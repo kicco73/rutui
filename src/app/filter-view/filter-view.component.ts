@@ -14,7 +14,7 @@ export class FilterViewComponent implements OnChanges {
 
   getLabel(concept: Concept): string | undefined {
     for (let language of Object.keys(concept.languages)) {
-      return `${concept.languages[language].terms![0].t} (${concept.id})`;
+      return `${concept.languages[language].label} (${concept.id})`;
     }
     return undefined;
   }

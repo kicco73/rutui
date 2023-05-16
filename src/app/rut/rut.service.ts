@@ -66,7 +66,7 @@ export type GraphDbResult = {
   providedIn: 'root'
 })
 export class RutService {
-  restApi: string = 'http://localhost:8080/resources';
+  restApi: string = 'http://localhost:8081/resources';
   mimetype = {json: 'application/json', sparql: 'application/sparql-query'};
 
   constructor() { }

@@ -40,7 +40,7 @@ const routes: Routes = [
 //  { path: 'hello', component: HelloworldComponent }
 ];
 
-const config: SocketIoConfig = { url: 'http://localhost:8080', options: {} };
+const config: SocketIoConfig = { url: 'http://localhost:8081', options: {} };
 
 @NgModule({
   imports: [BrowserModule, BrowserAnimationsModule, HttpClientModule, RouterModule.forRoot(routes), FormsModule,

@@ -1,0 +1,55 @@
+<div>
+  <p-checkbox label="No concepts" [binary]="true" [(ngModel)]="filter.noConcepts"></p-checkbox>&nbsp;
+</div>
+
+<div *ngIf="!filter.noConcepts">
+  <span>
+    <label for="mapConceptTo">Map concept to: </label>&nbsp;
+    <p-dropdown name="mapConceptTo" [options]="[
+        { name: 'URL', code: 'url' },
+        { name: 'Lexical Concept', code: 'lexical' },
+        { name: 'Skos Concept', code: 'skos' },
+        { name: 'OWL Concept', code: 'owl' }
+      ]" [(ngModel)]="conceptMapping" optionValue="code" optionLabel="name"></p-dropdown>
+  &nbsp;
+  </span>
+  &nbsp;
+  &nbsp;
+  <span>
+    <label for="defaultNamespace">Default namespace: </label>&nbsp;
+    <input name="defaultNamespace" type="text" pInputText [(ngModel)]="defaultNamespace" />
+  </span>
+  <p-divider></p-divider>
+
+  <p-table *ngIf="resource" [value]="resource!.concepts | keyvalue"
+    [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Concept</th>
+        <th>Terms</th>
+        <th>Relationship</th>
+        <th>URL</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-item>
+      <tr>
+        <td>{{ item.value.id }}</td>
+        <td>
+          {{ terms[item.key] }}
+        </td>
+        <td>
+          <p-radioButton name="relationship{{ item.value.id }}" value="See also" [(ngModel)]="seeAlso"
+            inputId="seeAlso{{ item.value.id }}"></p-radioButton>
+          <label for="interactive" class="ml-2"> See also</label>
+          &nbsp;
+          <p-radioButton name="relationship{{ item.value.id }}" value="Same as" [(ngModel)]="seeAlso"
+            inputId="sameAs{{ item.value.id }}"></p-radioButton>
+          <label for="conversionType" class="ml-2"> Same as</label>
+        </td>
+        <td>
+          <input type="text" pInputText />
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

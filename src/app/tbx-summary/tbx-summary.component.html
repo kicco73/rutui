@@ -14,5 +14,8 @@
   <div>
     <strong>Number of terms:</strong> {{ summary.numberOfTerms }}
   </div>
+  <div *ngFor="let item of summary.languages | keyvalue">
+    <strong>{{ item.key }}: </strong> {{ item.value }} terms
+  </div>
 
 </p-panel>

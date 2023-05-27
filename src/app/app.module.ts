@@ -36,6 +36,7 @@ import { IndexOfPipe } from './index-of.pipe';
 import { KeysPipe } from './keys.pipe';
 import { QueryViewComponent } from './query-view/query-view.component';
 import { ConceptTableComponent } from './concept-table/concept-table.component';
+import { AppLayoutModule } from './layout/app.layout.module';
 
 const routes: Routes = [
 //  { path: 'hello', component: HelloworldComponent }
@@ -44,7 +45,8 @@ const routes: Routes = [
 const config: SocketIoConfig = { url: 'http://localhost:8081', options: {} };
 
 @NgModule({
-  imports: [BrowserModule, BrowserAnimationsModule, HttpClientModule, RouterModule.forRoot(routes), FormsModule,
+  imports: [AppLayoutModule,
+    BrowserModule, BrowserAnimationsModule, HttpClientModule, RouterModule.forRoot(routes), FormsModule,
     ButtonModule, FileUploadModule, ScrollPanelModule, TabViewModule, PanelModule, TooltipModule, DividerModule,
     OverlayPanelModule, RadioButtonModule, InputTextModule, ProgressSpinnerModule, BlockUIModule, StepsModule,
     CheckboxModule, TreeModule, TreeTableModule, ChartModule, ToastModule, ProgressBarModule, TableModule,

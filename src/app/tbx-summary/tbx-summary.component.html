@@ -1,5 +1,7 @@
 
-<p-panel header="TBX summary" *ngIf="summary">
+<div class="card" *ngIf="summary">
+
+<h5>TBX summary</h5>
 
   <p-chart  type="doughnut" [data]="data" [options]="options"></p-chart>
   <div>
@@ -17,5 +19,4 @@
   <div *ngFor="let item of summary.languages | keyvalue">
     <strong>{{ item.key }}: </strong> {{ item.value }} terms
   </div>
-
-</p-panel>
+</div>

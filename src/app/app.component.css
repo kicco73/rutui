@@ -11,38 +11,6 @@
   padding-top: 8px;
 }
 
-.layout-header {
-  z-index: 100;
-  position: fixed;
-  width: 100%;
-  top: 0;
-  text-align: center;
-  padding: 20px;
-  font-size: 20px;
-  font-family: Arial, Helvetica, sans-serif;
-  color: white;
-  background: #3F51B5;
-}
-
-.layout-body {
-  margin-top: 90px;
-  margin-bottom: 120px;
-}
-
-.layout-footer {
-  display: none;
-  z-index: 100;
-  position: fixed;
-  width: 100%;
-  bottom: 0;
-  text-align: center;
-  padding: 20px;
-  font-size: 20px;
-  color: gray;
-  font-family: Arial, Helvetica, sans-serif;
-  background-color: #222;
-}
-
 .progressBar {
   position: fixed;
   bottom: 0;

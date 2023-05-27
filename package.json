@@ -23,6 +23,7 @@
     "font-awesome": "^4.7.0",
     "ng2-charts": "^4.1.1",
     "ngx-socket-io": "^4.4.0",
+    "primeflex": "^3.3.0",
     "primeicons": "^6.0.1",
     "primeng": "^15.3.0",
     "rxjs": "~7.8.0",

@@ -1,5 +1,3 @@
-<div class="layout-header">TBX to Lemon interactive tool</div>
-
 <div class="progressBar" *ngIf="0 < progress && progress < 100">
   <p-progressBar [value]="progress"></p-progressBar>
 </div>
@@ -10,7 +8,14 @@
 
 <p-toast></p-toast>
 
-<div class="layout-body">
+<div class="layout-main-container">
+<div class="layout-main">
+
+<div class="layout-topbar">
+  <h4>Tbx to Lemon interactive tool</h4>
+</div>
+
+<div class="card">
   <p-tabView (onChange)="onChangeTab($event)">
     <p-tabPanel header="Data Ingestion">
 
@@ -137,5 +142,5 @@
     </p-tabPanel>
   </p-tabView>
 </div>
-
-<div class="layout-footer">ILC-CNR &amp; University of Padua</div>
+</div>
+</div>

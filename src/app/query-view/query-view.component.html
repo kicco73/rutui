@@ -6,7 +6,7 @@
   </ng-template>
   <ng-template pTemplate="body" let-rowData let-columns="result.head.vars">
       <tr>
-          <td *ngFor="let col of result.head.vars">{{ rowData[col]? rowData[col].value : "" }}</td>
+          <td *ngFor="let col of result.head.vars" innerHtml="{{ formatCell(rowData[col]) }}"></td>
       </tr>
   </ng-template>
 </p-table>

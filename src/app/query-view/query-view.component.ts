@@ -8,4 +8,8 @@ import { GraphDbResult } from '../rut/rut.service';
 })
 export class QueryViewComponent {
   @Input() result?: GraphDbResult;
+
+  formatCell(cell: any): string {
+    return cell? cell.value.replaceAll('\n', '<br>') : "";
+  }
 }

@@ -29,8 +29,8 @@ export class AppComponent {
   repository : string = 'LexO';
   loading : boolean = false;
   progress: number = 0;
-  conceptMapping: string = 'skos';
   defaultNamespace: string = "http://txt2rdf/test#";
+  conceptMapping: string = 'skos';
   filter: Filter;
   queryResult?: GraphDbResult;
 

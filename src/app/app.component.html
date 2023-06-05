@@ -33,7 +33,7 @@
           <div class="flex align-items-center">
             <strong>Conversion type:</strong>
             &nbsp;
-            <p-radioButton [disabled]="true" name="conversionType" value="interactive" [(ngModel)]="conversionType"
+            <p-radioButton name="conversionType" value="interactive" [(ngModel)]="conversionType"
               inputId="interactive"></p-radioButton>
             <label for="interactive" class="ml-2" (mouseenter)="interactiveTip.show($event)"
               (mouseout)="interactiveTip.hide()">
@@ -61,6 +61,7 @@
           lexical entry.
         </p-overlayPanel>
 
+        <br/>
         <strong>Languages: </strong>&nbsp;
         <p-multiSelect (onChange)="onChangeLanguage($event)" [filter]="false"
           [options]="resource.summary.languages | keys" [(ngModel)]="filter.languages"></p-multiSelect>
@@ -84,22 +85,32 @@
       </div>
     </p-tabPanel>
 
-    <p-tabPanel header="Concept Mapping" [disabled]="!resource">
+    <p-tabPanel header="Concept Mapping" [disabled]="!resource || conversionType == 'automatic'">
       <app-concept-table [resource]="filteredResource" [filter]="filter"></app-concept-table>
     </p-tabPanel>
 
-    <p-tabPanel header="Term Mapping" [disabled]="!filteredResource">
+    <p-tabPanel header="Term Mapping" [disabled]="!filteredResource || conversionType == 'automatic'">
+
       <div>
-        <p-checkbox label="No lexical senses" [binary]="true" [(ngModel)]="filter.noSenses"></p-checkbox>
-        &nbsp;
-        <p-checkbox label="Translate terms" [binary]="true" [(ngModel)]="filter.translateTerms"
-          [disabled]="!filter.noSenses"></p-checkbox>
-        &nbsp;
-        <p-checkbox label="Translate senses" [binary]="true" [(ngModel)]="filter.translateSenses"
-          [disabled]="filter.noSenses"></p-checkbox>
-        &nbsp;
-        <p-checkbox label="Synonyms" [binary]="true" [(ngModel)]="filter.synonyms"
-          [disabled]="filter.noSenses"></p-checkbox>
+        <div style="padding: 5px">
+          <p-checkbox label="No lexical senses" [binary]="true" [(ngModel)]="filter.noSenses">
+          </p-checkbox>
+        </div>
+
+        <div style="padding: 5px">
+          <p-checkbox label="Translate terms" [binary]="true" [(ngModel)]="filter.translateTerms" [disabled]="!filter.noSenses">
+          </p-checkbox>
+        </div>
+
+        <div style="padding: 5px">
+          <p-checkbox label="Translate senses" [binary]="true" [(ngModel)]="filter.translateSenses" [disabled]="filter.noSenses">
+          </p-checkbox>
+        </div>
+
+        <div style="padding: 5px">
+          <p-checkbox label="Synonyms" [binary]="true" [(ngModel)]="filter.synonyms" [disabled]="filter.noSenses">
+          </p-checkbox>
+        </div>
       </div>
 
       <p-divider></p-divider>
@@ -133,10 +144,15 @@
         <input type="text" pInputText [(ngModel)]="repository" />
         &nbsp;
         <p-button (click)="onSubmit()" styleClass="p-button-raised p-button-success">Submit</p-button>
-        <p-scrollPanel [style]="{ width: '1000%', height: '100%' }" *ngIf="resource">
-          <pre>{{ resource.sparql }}</pre>
-        </p-scrollPanel>
       </div>
+
+      <p-scrollPanel *ngIf="resource" style="margin-top: 30px">
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <pre>{{ resource.sparql }}</pre>
+      </p-scrollPanel>
 
       <app-query-view [result]="queryResult"></app-query-view>
     </p-tabPanel>

@@ -17,7 +17,9 @@ export class ConceptTableComponent {
 
 
   private prepareTable(): void {
-    for (let key in this.resource!.concepts) {
+    let keys = Object.keys(this.resource!.concepts);
+    keys.sort();
+    for (let key of keys) {
       let concept : Concept = this.resource!.concepts[key];
       let terms : string[] = [];
       for (let languageKey in concept.languages) {

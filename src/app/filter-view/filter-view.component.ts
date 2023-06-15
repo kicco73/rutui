@@ -22,7 +22,11 @@ export class FilterViewComponent implements OnChanges {
   prepareTreeTableNode(): void {
     this.treeNodes = [];
 
-    for (let concept of Object.values(this.resource!.concepts)) {
+    let keys = Object.keys(this.resource!.concepts);
+    keys.sort();
+
+    for (let key of keys) {
+      let concept = this.resource!.concepts[key];
       let { id } = concept;
       let label = this.getLabel(concept);
 
